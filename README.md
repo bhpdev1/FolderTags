@@ -10,7 +10,7 @@
 <img src="https://img.shields.io/badge/Windows-11%20%7C%2010-0078D4?style=flat-square&logo=windows11&logoColor=white" alt="Windows 11 and 10">
 <img src="https://img.shields.io/badge/C%2B%2B17-Win32%20Shell%20Extension-00599C?style=flat-square&logo=cplusplus&logoColor=white" alt="C++17 Win32 shell extension">
 <img src="https://img.shields.io/badge/Background%20process-none-62C255?style=flat-square" alt="No background process">
-<img src="https://img.shields.io/badge/License-MIT-388AF0?style=flat-square" alt="MIT License">
+<img src="https://img.shields.io/badge/License-GPLv3-388AF0?style=flat-square" alt="GNU GPLv3 License">
 
 <br><br>
 
@@ -125,6 +125,12 @@ To completely remove the extension:
 
 ---
 
+### 📄 License
+
+This project is licensed under the **GNU General Public License v3.0** — see the [LICENSE](LICENSE) file for details.
+
+---
+
 <br>
 
 <a name="français"></a>
@@ -200,4 +206,4 @@ cd FolderTags
 ---
 
 ## 📄 Licence
-Ce projet est open-source sous licence MIT.
+Ce projet est open-source sous licence **GNU General Public License v3.0 (GPLv3)** — voir le fichier [LICENSE](LICENSE) pour plus de détails.
