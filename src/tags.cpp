@@ -1,18 +1,21 @@
 #include "tags.h"
+#include "i18n.h"
 #include "index.h"
 #include "overlay.h"
 
 namespace tags {
 
 const TagInfo kTags[kCount] = {
-    {"red", L"Rouge", 240, 82, 79},
-    {"orange", L"Orange", 246, 155, 48},
-    {"yellow", L"Jaune", 247, 203, 63},
-    {"green", L"Vert", 98, 194, 85},
-    {"blue", L"Bleu", 56, 138, 240},
-    {"purple", L"Violet", 176, 99, 214},
-    {"gray", L"Gris", 152, 152, 157},
+    {"red", L"red", L"Red", L"Rouge", 240, 82, 79},
+    {"orange", L"orange", L"Orange", L"Orange", 246, 155, 48},
+    {"yellow", L"yellow", L"Yellow", L"Jaune", 247, 203, 63},
+    {"green", L"green", L"Green", L"Vert", 98, 194, 85},
+    {"blue", L"blue", L"Blue", L"Bleu", 56, 138, 240},
+    {"purple", L"purple", L"Purple", L"Violet", 176, 99, 214},
+    {"gray", L"gray", L"Gray", L"Gris", 152, 152, 157},
 };
+
+const wchar_t* Label(int tag) { return i18n::T(kTags[tag].labelEn, kTags[tag].labelFr); }
 
 static const wchar_t kStream[] = L":FolderTags.Tags";
 

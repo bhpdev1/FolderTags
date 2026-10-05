@@ -1,4 +1,4 @@
-# Lists the 7 FolderTags overlay handlers under HKLM so Explorer shows the colored dot on
+# Lists the 7 FolderTags overlay handlers under HKLM so Explorer shows the colored badge on
 # tagged folders. Requires administrator rights (self-elevates).
 #
 # Windows only uses the first ~11 overlay handlers in alphabetical order. Our keys start with
@@ -6,6 +6,7 @@
 # entries may stop showing their sync badge.
 param([switch]$Remove)
 $ErrorActionPreference = "Stop"
+$fr = (Get-UICulture).TwoLetterISOLanguageName -eq "fr"
 
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
     [Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -17,8 +18,12 @@ if (-not $isAdmin) {
 }
 
 $base = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ShellIconOverlayIdentifiers"
-$names = "Rouge", "Orange", "Jaune", "Vert", "Bleu", "Violet", "Gris"
+# Index order must match kTags in src/tags.cpp (CLSID suffix = index).
+$names  = "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Gray"
+# Key names used by v1.0.0 (French): always cleaned up.
+$legacy = "Rouge", "Orange", "Jaune", "Vert", "Bleu", "Violet", "Gris"
 for ($i = 0; $i -lt 7; $i++) {
+    Remove-Item (Join-Path $base ("  FolderTags{0}{1}" -f $i, $legacy[$i])) -ErrorAction SilentlyContinue
     $key = Join-Path $base ("  FolderTags{0}{1}" -f $i, $names[$i])
     $clsid = "{{B6E4CD56-987A-4C8F-8729-7FD3D4D8EBE{0}}}" -f $i
     if ($Remove) {
@@ -28,4 +33,8 @@ for ($i = 0; $i -lt 7; $i++) {
         Set-Item $key -Value $clsid
     }
 }
-Write-Host ($(if ($Remove) { "Overlays retires." } else { "Overlays installes." }) + " Redemarrez l'Explorateur.")
+if ($Remove) {
+    Write-Host $(if ($fr) { "Overlays retires." } else { "Overlays removed." })
+} else {
+    Write-Host $(if ($fr) { "Overlays installes." } else { "Overlays installed." })
+}

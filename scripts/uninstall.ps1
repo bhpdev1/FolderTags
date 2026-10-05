@@ -1,5 +1,6 @@
 # Removes the shell extension for the current user (tags already set on folders are kept).
 $ErrorActionPreference = "Stop"
+$fr = (Get-UICulture).TwoLetterISOLanguageName -eq "fr"
 
 # Unregister overlays if script is available
 $overlaysScript = Join-Path $PSScriptRoot "install-overlays.ps1"
@@ -14,4 +15,4 @@ Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
 Start-Sleep -Milliseconds 800
 Remove-Item (Split-Path $dll) -Recurse -Force -ErrorAction SilentlyContinue
 if (-not (Get-Process explorer -ErrorAction SilentlyContinue)) { Start-Process explorer.exe }
-Write-Host "FolderTags desinstalle."
+Write-Host $(if ($fr) { "FolderTags desinstalle." } else { "FolderTags uninstalled." })

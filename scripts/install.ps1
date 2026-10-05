@@ -1,5 +1,8 @@
 # Installs (or updates) the shell extension for the current user, then restarts Explorer.
 $ErrorActionPreference = "Stop"
+$fr = (Get-UICulture).TwoLetterISOLanguageName -eq "fr"
+function T([string]$en, [string]$frText) { if ($fr) { $frText } else { $en } }
+
 # Look for FolderTags.dll in same folder (release bundle) or build folder (repo)
 $src = Join-Path $PSScriptRoot "FolderTags.dll"
 if (-not (Test-Path $src)) {
@@ -11,7 +14,7 @@ if (-not (Test-Path $src)) {
     if (Test-Path $buildScript) {
         & $buildScript
     } else {
-        throw "FolderTags.dll introuvable."
+        throw (T "FolderTags.dll not found." "FolderTags.dll introuvable.")
     }
 }
 
@@ -28,12 +31,12 @@ try {
 } catch {
     Move-Item $dll (Join-Path $dest ("FolderTags.{0}.old" -f [DateTime]::Now.Ticks)) -Force
     Copy-Item $src $dll -Force
-    Write-Host "DLL verrouillee, remplacement en differe..."
+    Write-Host (T "DLL in use, replacing it on restart..." "DLL verrouillee, remplacement en differe...")
 }
 
 $p = Start-Process "$env:SystemRoot\System32\regsvr32.exe" -ArgumentList "/s `"$dll`"" -Wait -PassThru
 if ($p.ExitCode -ne 0) { throw "regsvr32 failed ($($p.ExitCode))" }
-Write-Host "FolderTags installe : $dll"
+Write-Host ((T "FolderTags installed: " "FolderTags installe : ") + $dll)
 
 # Register icon overlays in HKLM if install-overlays.ps1 is available
 $overlaysScript = Join-Path $PSScriptRoot "install-overlays.ps1"
@@ -41,12 +44,12 @@ if (Test-Path $overlaysScript) {
     try {
         & $overlaysScript
     } catch {
-        Write-Warning "Enregistrement des overlays reporte : $($_.Exception.Message)"
+        Write-Warning ((T "Overlay registration postponed: " "Enregistrement des overlays reporte : ") + $_.Exception.Message)
     }
 }
 
-Write-Host "Redemarrage de l'Explorateur pour recharger les overlays..."
+Write-Host (T "Restarting Explorer to reload overlays..." "Redemarrage de l'Explorateur pour recharger les overlays...")
 Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 2
 if (-not (Get-Process explorer -ErrorAction SilentlyContinue)) { Start-Process explorer.exe }
-Write-Host "Explorateur redemarre avec succes."
+Write-Host (T "Explorer restarted." "Explorateur redemarre avec succes.")

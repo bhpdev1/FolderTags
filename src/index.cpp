@@ -1,5 +1,6 @@
 #include "index.h"
 #include "draw.h"
+#include "i18n.h"
 #include "tags.h"
 #include <knownfolders.h>
 #include <propkey.h>
@@ -22,7 +23,8 @@ std::wstring KnownFolder(REFKNOWNFOLDERID id) {
 }
 
 std::wstring TagsRoot() { return DataDir() + L"\\Tags"; }
-std::wstring ColorDir(int tag) { return TagsRoot() + L"\\" + tags::kTags[tag].label; }
+// Stable on-disk name ("blue"); the localized name is shown through desktop.ini.
+std::wstring ColorDir(int tag) { return TagsRoot() + L"\\" + tags::kTags[tag].id; }
 
 std::wstring Lower(std::wstring s) {
     CharLowerBuffW(s.data(), (DWORD)s.size());
@@ -262,11 +264,12 @@ void PaintRootIcon(Graphics& g, int s, int) {
 
 // ---------- Tags folder tree ----------
 
-void WriteDesktopIni(const std::wstring& dir, const std::wstring& icon) {
+// `name` (optional) is the display name Explorer shows instead of the folder's real name.
+void WriteDesktopIni(const std::wstring& dir, const std::wstring& icon, const wchar_t* name = nullptr) {
     const std::wstring ini = dir + L"\\desktop.ini";
     SetFileAttributesW(ini.c_str(), FILE_ATTRIBUTE_NORMAL);
-    const std::wstring body =
-        L"\xFEFF[.ShellClassInfo]\r\nIconResource=" + icon + L",0\r\n";
+    std::wstring body = L"\xFEFF[.ShellClassInfo]\r\nIconResource=" + icon + L",0\r\n";
+    if (name) body += std::wstring(L"LocalizedResourceName=") + name + L"\r\n";
     HANDLE h = CreateFileW(ini.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0, nullptr);
     if (h != INVALID_HANDLE_VALUE) {
         DWORD w;
@@ -317,7 +320,7 @@ std::wstring FindLink(const std::wstring& dir, const std::wstring& path) {
 void AddLink(const std::wstring& dir, const std::wstring& path) {
     if (!FindLink(dir, path).empty()) return;
     std::wstring base = PathFindFileNameW(path.c_str());
-    if (base.empty() || base.find(L':') != std::wstring::npos) base = L"Lecteur";
+    if (base.empty() || base.find(L':') != std::wstring::npos) base = i18n::T(L"Drive", L"Lecteur");
     std::wstring lnk = dir + L"\\" + base + L".lnk";
     for (int i = 2; PathFileExistsW(lnk.c_str()); ++i)
         lnk = dir + L"\\" + base + L" (" + std::to_wstring(i) + L").lnk";
@@ -365,14 +368,35 @@ HRESULT SetReg(const std::wstring& key, const wchar_t* name, DWORD v) {
         RegSetKeyValueW(HKEY_CURRENT_USER, key.c_str(), name, REG_DWORD, &v, sizeof(v)));
 }
 
+std::wstring TagIconPath(int tag) {
+    return IconPath((std::wstring(L"tag_") + tags::kTags[tag].id).c_str());
+}
+
+// v1.0.0 named the color folders, icons and warm-up folders after the French label.
+// Move the color folders (with their shortcuts) to the stable ids and drop the old files.
+void MigrateLegacyNames() {
+    for (int i = 0; i < tags::kCount; ++i) {
+        const auto& t = tags::kTags[i];
+        if (!lstrcmpiW(t.labelFr, t.id)) continue;  // "Orange" == "orange" on NTFS
+        const std::wstring old = TagsRoot() + L"\\" + t.labelFr;
+        if (PathIsDirectoryW(old.c_str()) && !PathFileExistsW(ColorDir(i).c_str())) {
+            SetFileAttributesW(old.c_str(), FILE_ATTRIBUTE_NORMAL);  // drop system-folder ReadOnly
+            MoveFileW(old.c_str(), ColorDir(i).c_str());
+        }
+        DeleteFileW(IconPath((std::wstring(L"tag_") + t.labelFr).c_str()).c_str());
+        DeleteFileW(IconPath((std::wstring(L"overlay23_") + t.labelFr).c_str()).c_str());
+        RemoveDirectoryW((DataDir() + L"\\warmup\\" + t.labelFr).c_str());
+    }
+}
+
 }  // namespace
 
 std::wstring DataDir() { return KnownFolder(FOLDERID_LocalAppData) + L"\\FolderTags"; }
 std::wstring IconPath(const wchar_t* name) { return DataDir() + L"\\icons\\" + name + L".ico"; }
 std::wstring OverlayIconPath(int tag) {
-    return IconPath((std::wstring(L"overlay23_") + std::wstring(tags::kTags[tag].label)).c_str());
+    return IconPath((std::wstring(L"overlay23_") + tags::kTags[tag].id).c_str());
 }
-std::wstring WarmupDir(int tag) { return DataDir() + L"\\warmup\\" + tags::kTags[tag].label; }
+std::wstring WarmupDir(int tag) { return DataDir() + L"\\warmup\\" + tags::kTags[tag].id; }
 
 void Update(const std::wstring& path, unsigned oldMask, unsigned newMask) {
     for (int i = 0; i < tags::kCount; ++i) {
@@ -392,6 +416,7 @@ HRESULT Setup() {
     CreateDirectoryW(data.c_str(), nullptr);
     CreateDirectoryW((data + L"\\icons").c_str(), nullptr);
     CreateDirectoryW(TagsRoot().c_str(), nullptr);
+    MigrateLegacyNames();
 
     const std::wstring rootIcon = IconPath(L"tags");
     SaveIco(rootIcon, PaintRootIcon, 0);
@@ -400,12 +425,12 @@ HRESULT Setup() {
     CreateDirectoryW((data + L"\\warmup").c_str(), nullptr);
     SetFileAttributesW((data + L"\\warmup").c_str(), FILE_ATTRIBUTE_HIDDEN);
     for (int i = 0; i < tags::kCount; ++i) {
-        const std::wstring icon =
-            IconPath((std::wstring(L"tag_") + tags::kTags[i].label).c_str());
+        const std::wstring icon = TagIconPath(i);
         SaveIco(icon, PaintTagIcon, i);
         SaveIco(OverlayIconPath(i), PaintOverlay, i);
         CreateDirectoryW(ColorDir(i).c_str(), nullptr);
-        WriteDesktopIni(ColorDir(i), icon);
+        // Display name follows the UI language at install time (re-run install after a change).
+        WriteDesktopIni(ColorDir(i), icon, tags::Label(i));
 
         const std::wstring warm = WarmupDir(i);
         CreateDirectoryW(warm.c_str(), nullptr);

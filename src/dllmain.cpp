@@ -105,7 +105,7 @@ STDAPI DllRegisterServer() {
     for (auto key : kHandlerKeys)
         if (SUCCEEDED(hr)) hr = SetValue(key, nullptr, kClsidStr);
     for (int i = 0; SUCCEEDED(hr) && i < tags::kCount; ++i) {
-        const std::wstring name = std::wstring(L"FolderTags Overlay ") + tags::kTags[i].label;
+        const std::wstring name = std::wstring(L"FolderTags Overlay ") + tags::kTags[i].labelEn;
         hr = RegisterComClass(OverlayClsidString(i), name.c_str(), path);
     }
     if (SUCCEEDED(hr)) hr = index::Setup();

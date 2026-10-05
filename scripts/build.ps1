@@ -5,7 +5,7 @@ $root = Split-Path $PSScriptRoot -Parent
 
 $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
 $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-if (-not $vs) { throw "Visual Studio C++ Build Tools introuvables." }
+if (-not $vs) { throw "Visual Studio C++ Build Tools not found." }
 $vcvars = Join-Path $vs "VC\Auxiliary\Build\vcvars64.bat"
 
 $build = Join-Path $root "build"

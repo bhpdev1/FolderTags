@@ -6,11 +6,16 @@ namespace tags {
 constexpr int kCount = 7;
 
 struct TagInfo {
-    const char* key;       // stored on disk
-    const wchar_t* label;  // shown in UI
+    const char* key;         // stored on disk (NTFS stream content)
+    const wchar_t* id;       // same key, used for file / folder names
+    const wchar_t* labelEn;  // shown in UI
+    const wchar_t* labelFr;  // shown in UI on French Windows (also the folder names of v1.0.0)
     BYTE r, g, b;
 };
 extern const TagInfo kTags[kCount];
+
+// Localized display name of a tag.
+const wchar_t* Label(int tag);
 
 enum class State { None, Partial, All };
 

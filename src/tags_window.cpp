@@ -1,6 +1,7 @@
 // "Tags…" window, launched out-of-process through rundll32 so Explorer never hosts our UI.
 // rundll32 "FolderTags.dll",ShowTags <x> <y> <list-file>
 #include "draw.h"
+#include "i18n.h"
 #include <dwmapi.h>
 #include <windowsx.h>
 
@@ -57,8 +58,8 @@ struct TagsWindow {
         HGDIOBJ oldFont = SelectObject(mem, bold);
         SetTextColor(mem, dim);
         RECT hr = {Pad() + S(10), Pad(), w - Pad(), Pad() + HeaderH()};
-        DrawTextW(mem, sel.paths.size() > 1 ? L"Tags (s\u00e9lection)" : L"Tags", -1, &hr,
-                  DT_SINGLELINE | DT_VCENTER | DT_LEFT);
+        DrawTextW(mem, sel.paths.size() > 1 ? i18n::T(L"Tags (selection)", L"Tags (s\u00e9lection)") : L"Tags",
+                  -1, &hr, DT_SINGLELINE | DT_VCENTER | DT_LEFT);
 
         SelectObject(mem, font);
         for (int i = 0; i < tags::kCount; ++i) {
@@ -81,7 +82,7 @@ struct TagsWindow {
 
             SetTextColor(mem, text);
             RECT tr = {Pad() + S(34), top, w - Pad() - S(30), top + RowH()};
-            DrawTextW(mem, tags::kTags[i].label, -1, &tr, DT_SINGLELINE | DT_VCENTER | DT_LEFT);
+            DrawTextW(mem, tags::Label(i), -1, &tr, DT_SINGLELINE | DT_VCENTER | DT_LEFT);
 
             if (st != tags::State::None) {
                 Pen pen(dark ? Color(255, 240, 240, 240) : Color(255, 28, 28, 30),

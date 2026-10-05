@@ -1,5 +1,6 @@
 #include "context_menu.h"
 #include "draw.h"
+#include "i18n.h"
 
 using namespace Gdiplus;
 
@@ -159,8 +160,9 @@ IFACEMETHODIMP ContextMenu::GetCommandString(UINT_PTR cmd, UINT type, UINT*, CHA
     case GCS_VERBW: return StringCchCopyW(reinterpret_cast<LPWSTR>(name), cch, verb);
     case GCS_HELPTEXTW:
         return StringCchCopyW(reinterpret_cast<LPWSTR>(name), cch,
-                              cmd == kCmdRow ? L"Ajouter ou retirer un tag de couleur"
-                                             : L"Modifier les tags");
+                              cmd == kCmdRow
+                                  ? i18n::T(L"Add or remove a color tag", L"Ajouter ou retirer un tag de couleur")
+                                  : i18n::T(L"Edit tags", L"Modifier les tags"));
     case GCS_VALIDATEW: return S_OK;
     default: return E_NOTIMPL;
     }
