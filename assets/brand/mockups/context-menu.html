@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- Mockup: Explorer context menu (English) with the FolderTags color row.
+     Geometry: menu metrics measured on assets/context_menu.png (125 %), dot row from
+     src/context_menu.cpp GeoFor() x 1.25 (left 46.9, radius 7.5, step 26.25). Canvas 1000x700. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="mockup.css">
+<style>
+  html, body { width: 1000px; height: 700px; }
+  .folder { left: 70px; top: 34px; padding: 4px 0 6px; }
+  .menu {
+    left: 190px; top: 64px; width: 359px; padding: 5px 0;
+    background: #2C2C2C; border: 1px solid #3B3B3B; border-radius: 8px;
+    font-size: 15px;
+  }
+  .mi { position: relative; height: 29.5px; line-height: 29.5px; padding-left: 46px; white-space: nowrap; }
+  .mi.default { font-weight: 700; }
+  .mi.sub::after {
+    content: "\E76C"; font-family: var(--icons); font-size: 11px; position: absolute; right: 16px; top: 0;
+  }
+  .sep { height: 9px; position: relative; }
+  .sep::before { content: ""; position: absolute; left: 0; right: 0; top: 4px; height: 1px; background: #3D3D3D; }
+  .row { position: relative; height: 29.5px; }
+  .cursor { position: absolute; width: 18px; height: 27px; }
+</style>
+</head>
+<body>
+  <div class="item folder selected">
+    <div class="ico"><img src="icons/d_projects.png" alt=""></div>
+    <div class="label">Projects</div>
+  </div>
+
+  <div class="win menu" id="menu">
+    <div class="mi default">Open</div>
+    <div class="mi">Open in new window</div>
+    <div class="mi">Pin to Quick access</div>
+    <div class="mi">Open in Terminal</div>
+    <div class="sep"></div>
+    <div class="row" id="row"></div>
+    <div class="mi">Tags…</div>
+    <div class="sep"></div>
+    <div class="mi sub">Give access to</div>
+    <div class="mi">Restore previous versions</div>
+    <div class="mi sub">Include in library</div>
+    <div class="mi">Pin to Start</div>
+    <div class="mi">Copy as path</div>
+    <div class="sep"></div>
+    <div class="mi sub">Send to</div>
+    <div class="sep"></div>
+    <div class="mi">Cut</div>
+    <div class="mi">Copy</div>
+    <div class="sep"></div>
+    <div class="mi">Create shortcut</div>
+    <div class="mi">Delete</div>
+    <div class="mi">Rename</div>
+    <div class="sep"></div>
+    <div class="mi">Properties</div>
+  </div>
+
+  <!-- standard Windows arrow cursor -->
+  <svg class="cursor" id="cursor" viewBox="0 0 12 19" aria-hidden="true">
+    <path d="M1 1v15.2l3.6-3.5 2.3 5.3 2.2-.9-2.3-5.2H12z" fill="#fff" stroke="#000" stroke-width="1" stroke-linejoin="round"/>
+  </svg>
+
+<script src="mockup.js"></script>
+<script>
+  // Folder "Projects" already has Green (check mark); the pointer hovers Blue (ring + plus).
+  const row = document.getElementById("row");
+  const left = 46.875 - 1 /* border */, r = 7.5, step = 26.25;
+  for (let i = 0; i < 7; i++) {
+    drawDot(row, left + r + step * i, 29.5 / 2, r, i, i === 3 ? "all" : "none", i === 4);
+  }
+  const menu = document.getElementById("menu");
+  const cur = document.getElementById("cursor");
+  const cx = menu.offsetLeft + 1 + left + r + step * 4 + 2;
+  const cy = menu.offsetTop + 1 + row.offsetTop + 29.5 / 2 + 2;
+  cur.style.left = cx + "px"; cur.style.top = cy + "px";
+</script>
+</body>
+</html>

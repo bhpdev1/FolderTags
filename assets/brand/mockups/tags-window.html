@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!-- Mockup: the "Tags…" window (English). Geometry = src/tags_window.cpp x 1.25:
+     width 275, padding 7.5, header 37.5, rows 35, dot r 7.5 at x 30, label at x 50,
+     check mark at width-30 (s 5.6, stroke 2), dark colors from Paint(). Canvas 640x448 (10:7). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="mockup.css">
+<style>
+  html, body { width: 640px; height: 448px; }
+  .tw {
+    left: 196px; top: 54px; width: 275px; height: 297.5px;
+    background: #2C2C2E; border-radius: 8px; border: 1px solid rgba(255,255,255,.08);
+    font-size: 15px;
+  }
+  .hdr { position: absolute; left: 20px; top: 7.5px; height: 37.5px; line-height: 37.5px; font-weight: 600; color: #A0A0A5; }
+  .r { position: absolute; left: 7.5px; right: 7.5px; height: 35px; border-radius: 6.25px; }
+  .r.hover { background: #424246; }
+  .r span { position: absolute; left: 42.5px; top: 0; line-height: 35px; color: #F0F0F0; }
+  .check { position: absolute; overflow: visible; }
+  .cursor { position: absolute; width: 18px; height: 27px; }
+</style>
+</head>
+<body>
+  <div class="item selected" style="left:40px;top:30px;padding:4px 0 6px">
+    <div class="ico"><img src="icons/d_projects.png" alt=""></div>
+    <div class="label">Projects</div>
+  </div>
+  <div class="item" style="left:40px;top:150px">
+    <div class="ico"><img src="icons/d_designs.png" alt=""><span class="badge" style="--c:var(--blue)"></span></div>
+    <div class="label">Designs</div>
+  </div>
+  <div class="item" style="left:40px;top:270px">
+    <div class="ico"><img src="icons/d_personal.png" alt=""></div>
+    <div class="label">Personal</div>
+  </div>
+
+  <div class="win tw" id="tw"><div class="hdr">Tags</div></div>
+
+  <svg class="cursor" id="cursor" viewBox="0 0 12 19" aria-hidden="true">
+    <path d="M1 1v15.2l3.6-3.5 2.3 5.3 2.2-.9-2.3-5.2H12z" fill="#fff" stroke="#000" stroke-width="1" stroke-linejoin="round"/>
+  </svg>
+
+<script src="mockup.js"></script>
+<script>
+  const labels = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Gray"];
+  const checked = new Set([3]);  // Green
+  const hover = 4;               // Blue
+  const tw = document.getElementById("tw");
+  const W = 275, pad = 7.5, header = 37.5, rowH = 35;
+  labels.forEach((name, i) => {
+    const top = pad + header + rowH * i - 1;  // -1: window border
+    const r = document.createElement("div");
+    r.className = "r" + (i === hover ? " hover" : "");
+    r.style.top = top + "px";
+    r.innerHTML = `<span>${name}</span>`;
+    tw.appendChild(r);
+    drawDot(tw, pad + 22.5 - 1, top + rowH / 2, 7.5, i, "none", false, true);
+    if (checked.has(i)) {
+      const ns = "http://www.w3.org/2000/svg", s = 5.625, cx = W - pad - 22.5 - 1, cy = top + rowH / 2;
+      const svg = document.createElementNS(ns, "svg");
+      svg.setAttribute("class", "check"); svg.setAttribute("width", 20); svg.setAttribute("height", 20);
+      svg.setAttribute("viewBox", "-10 -10 20 20");
+      svg.style.left = (cx - 10) + "px"; svg.style.top = (cy - 10) + "px";
+      svg.innerHTML = `<path d="M${-s} 0L${-s * .3} ${s * .75}L${s} ${-s * .7}" fill="none" stroke="#F0F0F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+      tw.appendChild(svg);
+    }
+  });
+  const cur = document.getElementById("cursor");
+  cur.style.left = (tw.offsetLeft + 120) + "px";
+  cur.style.top = (tw.offsetTop + pad + header + rowH * hover + 14) + "px";
+</script>
+</body>
+</html>

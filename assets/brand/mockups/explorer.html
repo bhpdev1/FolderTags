@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!-- Mockup: File Explorer (English, dark) showing the FolderTags "Tags" tree in the navigation pane.
+     Colors/metrics sampled from assets/explorer_sidebar.png (125 %): tab strip #0A0A0A, active tab and
+     address row #1F1F1F, boxes #2C2C2C, panes #191919, dividers #3A3A3A, nav rows 40 px, nav width 196.
+     Nav icons are real crops (icons/e_*.png). Tag icons = PaintTagIcon (single dot, r = 0.34 * 20 px).
+     Child folders are sorted by display name, as Explorer does. Canvas 1000x700. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="mockup.css">
+<style>
+  html, body { width: 1000px; height: 700px; }
+  .ex { left: 50px; top: 34px; width: 900px; height: 632px; background: #191919; border-color: #3A3A3A; font-size: 15px; color: #fff; }
+  .abs { position: absolute; }
+  .g { font-family: var(--icons); font-size: 16px; line-height: 1; }
+  .dim { color: #6F6F6F; }
+
+  .tabs { left: 0; top: 0; right: 0; height: 42px; background: #0A0A0A; }
+  .tab { left: 8px; top: 8px; width: 300px; height: 34px; background: #1F1F1F; border-radius: 8px 8px 0 0; }
+  .tab .title { left: 40px; top: 7px; font-size: 15px; }
+  .tab .x { right: 14px; top: 10px; font-size: 13px; }
+  .newtab { left: 328px; top: 17px; font-size: 14px; }
+  .caption { top: 0; height: 42px; width: 58px; text-align: center; line-height: 42px; font-size: 12px; }
+
+  .addr { left: 0; right: 0; top: 42px; height: 60px; background: #1F1F1F; border-bottom: 1px solid #3A3A3A; }
+  .nav-btn { top: 22px; font-size: 17px; }
+  .box { top: 10px; height: 40px; background: #2C2C2C; border-radius: 6px; }
+  .crumbs { left: 204px; right: 296px; }
+  .crumbs span { position: absolute; top: 10px; }
+  .search { right: 16px; width: 268px; }
+  .search span { position: absolute; top: 10px; color: #9D9D9D; }
+
+  .cmd { left: 0; right: 0; top: 103px; height: 58px; border-bottom: 1px solid #3A3A3A; }
+  .cmd .it { top: 20px; font-size: 17px; }
+  .vsep { top: 14px; width: 1px; height: 30px; background: #3A3A3A; }
+  .newc { left: 18px; top: 13px; width: 24px; height: 24px; border: 1.5px solid #fff; border-radius: 50%; }
+  .newc::after { content: "\E710"; font-family: var(--icons); font-size: 11px; position: absolute; left: 5.5px; top: 5.5px; }
+
+  .nav { left: 0; top: 162px; width: 196px; bottom: 30px; overflow: hidden; }
+  .split { left: 196px; top: 162px; width: 4px; bottom: 30px; background: #202020; border-left: 1px solid #2B2B2B; }
+  .row { position: absolute; left: 4px; width: 190px; height: 40px; }
+  .row.sel { background: #505050; border-radius: 4px; outline: 1px solid #C3C3C3; outline-offset: -1px; }
+  .row img { position: absolute; left: 38px; top: 9px; width: 22px; height: 22px; }
+  .row .t { position: absolute; left: 64px; top: 9px; }
+  .row.child .t { left: 74px; }
+  .row .tdot { position: absolute; left: 51.7px; top: 13.2px; width: 13.6px; height: 13.6px; border-radius: 50%; }
+  .row .chev { position: absolute; left: 13px; top: 14px; font-size: 12px; }
+  .row .pin { position: absolute; right: 8px; top: 14px; font-size: 13px; color: #A0A0A0; }
+  .hr { position: absolute; left: 14px; width: 168px; height: 1px; background: #383838; }
+
+  .content { left: 201px; right: 0; top: 162px; bottom: 30px; }
+  .th { top: 10px; color: #CFCFCF; font-size: 14px; }
+  .th.sorted::before { content: "\E70E"; font-family: var(--icons); font-size: 9px; position: absolute; left: 14px; top: -10px; color: #9D9D9D; }
+  .colsep { top: 6px; width: 1px; height: 24px; background: #333; }
+  .file { position: absolute; left: 10px; right: 10px; height: 34px; }
+  .file img { position: absolute; left: 16px; top: 7px; width: 18px; height: 19px; }
+  .file span { position: absolute; top: 6px; color: #fff; }
+  .file span.m { color: #B5B5B5; }
+  .status { left: 0; right: 0; bottom: 0; height: 30px; background: #191919; color: #CFCFCF; font-size: 13px; }
+  .status span { position: absolute; left: 14px; top: 6px; }
+</style>
+</head>
+<body>
+<div class="win ex">
+  <!-- tab strip -->
+  <div class="abs tabs">
+    <div class="abs tab">
+      <span class="abs" style="left:14px;top:10px;width:14px;height:14px;border-radius:50%;background:var(--blue)"></span>
+      <span class="abs title">Blue</span>
+      <span class="abs g x">&#xE8BB;</span>
+    </div>
+    <span class="abs g newtab">&#xE710;</span>
+    <span class="abs g caption" style="right:116px">&#xE921;</span>
+    <span class="abs g caption" style="right:58px">&#xE922;</span>
+    <span class="abs g caption" style="right:0">&#xE8BB;</span>
+  </div>
+
+  <!-- address row -->
+  <div class="abs addr">
+    <span class="abs g nav-btn" style="left:22px">&#xE72B;</span>
+    <span class="abs g nav-btn dim" style="left:70px">&#xE72A;</span>
+    <span class="abs g nav-btn" style="left:118px">&#xE74A;</span>
+    <span class="abs g nav-btn" style="left:164px">&#xE72C;</span>
+    <div class="abs box crumbs">
+      <span class="g" style="left:14px;top:12px;font-size:17px">&#xE7F4;</span>
+      <span class="g" style="left:44px;top:14px;font-size:11px">&#xE76C;</span>
+      <span style="left:64px">Tags</span>
+      <span class="g" style="left:108px;top:14px;font-size:11px">&#xE76C;</span>
+      <span style="left:128px">Blue</span>
+    </div>
+    <div class="abs box search">
+      <span style="left:14px">Search Blue</span>
+      <span class="g" style="right:14px;top:12px;color:#fff">&#xE721;</span>
+    </div>
+  </div>
+
+  <!-- command bar -->
+  <div class="abs cmd">
+    <div class="abs newc"></div>
+    <span class="abs" style="left:50px;top:16px">New</span>
+    <span class="abs g" style="left:88px;top:22px;font-size:10px">&#xE70D;</span>
+    <div class="abs vsep" style="left:116px"></div>
+    <span class="abs g it dim" style="left:136px">&#xE8C6;</span>
+    <span class="abs g it dim" style="left:184px">&#xE8C8;</span>
+    <span class="abs g it dim" style="left:232px">&#xE77F;</span>
+    <span class="abs g it dim" style="left:280px">&#xE8AC;</span>
+    <span class="abs g it dim" style="left:328px">&#xE72D;</span>
+    <span class="abs g it dim" style="left:376px">&#xE74D;</span>
+    <div class="abs vsep" style="left:414px"></div>
+    <span class="abs g it" style="left:432px">&#xE8CB;</span>
+    <span class="abs" style="left:458px;top:16px">Sort</span>
+    <span class="abs g" style="left:494px;top:22px;font-size:10px">&#xE70D;</span>
+    <span class="abs g it" style="left:526px">&#xE8A9;</span>
+    <span class="abs" style="left:552px;top:16px">View</span>
+    <span class="abs g" style="left:592px;top:22px;font-size:10px">&#xE70D;</span>
+    <div class="abs vsep" style="left:622px"></div>
+    <span class="abs g it" style="left:640px">&#xE712;</span>
+  </div>
+
+  <!-- navigation pane -->
+  <div class="abs nav" id="nav"></div>
+  <div class="abs split"></div>
+
+  <!-- content: details view -->
+  <div class="abs content" id="content">
+    <span class="abs th sorted" style="left:36px">Name</span>
+    <div class="abs colsep" style="left:290px"></div>
+    <span class="abs th" style="left:302px">Date modified</span>
+    <div class="abs colsep" style="left:480px"></div>
+    <span class="abs th" style="left:492px">Type</span>
+    <div class="abs colsep" style="left:600px"></div>
+    <span class="abs th" style="left:612px">Size</span>
+  </div>
+  <div class="abs status"><span>3 items</span></div>
+</div>
+
+<script src="mockup.js"></script>
+<script>
+  const nav = document.getElementById("nav");
+  let y = 6;
+  const add = (html, cls = "") => {
+    const r = document.createElement("div");
+    r.className = "row " + cls; r.style.top = y + "px"; r.innerHTML = html;
+    nav.appendChild(r); y += 40;
+  };
+  add(`<img src="icons/e_home.png"><span class="t">Home</span>`);
+  add(`<img src="icons/e_gallery.png"><span class="t">Gallery</span>`);
+  add(`<span class="g chev">&#xE70D;</span><img src="icons/e_tags.png"><span class="t">Tags</span>`);
+  // Child folders sorted by English display name.
+  const children = [["Blue", 4], ["Gray", 6], ["Green", 3], ["Orange", 1], ["Purple", 5], ["Red", 0], ["Yellow", 2]];
+  for (const [name, tag] of children) {
+    const c = TAGS[tag].rgb;
+    add(`<span class="tdot" style="background:rgb(${c})"></span><span class="t">${name}</span>`,
+        "child" + (name === "Blue" ? " sel" : ""));
+  }
+
+  // Shortcuts in the Blue folder (same folders as the desktop mockup).
+  const content = document.getElementById("content");
+  [["Designs", "10/4/2026 9:12 AM"], ["Documents", "10/4/2026 9:14 AM"], ["Workspace", "10/5/2026 6:40 PM"]]
+    .forEach(([name, date], i) => {
+      const f = document.createElement("div");
+      f.className = "file"; f.style.top = (44 + 36 * i) + "px";
+      f.innerHTML = `<img src="icons/e_link.png"><span style="left:44px">${name}</span>` +
+        `<span class="m" style="left:292px">${date}</span><span class="m" style="left:482px">Shortcut</span>` +
+        `<span class="m" style="left:602px">2 KB</span>`;
+      content.appendChild(f);
+    });
+</script>
+</body>
+</html>

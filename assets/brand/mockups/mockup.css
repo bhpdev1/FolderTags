@@ -1,0 +1,55 @@
+/* Shared styles for the FolderTags English UI mockups.
+   Units are "125 % scaling" pixels, i.e. 1 CSS px = 1 px of the reference screenshots, so the real
+   icon crops (icons/) and the geometry from src/*.cpp (x 1.25) line up 1:1.
+   Modes: default = framed on the bloom wallpaper (README screenshots); #bare = transparent (hero). */
+:root {
+  --red: #F0524F; --orange: #F69B30; --yellow: #F7CB3F; --green: #62C255;
+  --blue: #388AF0; --purple: #B063D6; --gray: #98989D;
+  --ui: "Segoe UI", system-ui, sans-serif;
+  --icons: "Segoe Fluent Icons", "Segoe MDL2 Assets";
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow: hidden; }
+body {
+  position: relative; font-family: var(--ui); color: #fff;
+  -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision;
+  background: #0B0D14 url("../wallpaper.jpg") center / cover no-repeat;
+}
+body::before {  /* soften the wallpaper so the UI stays the subject */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120% 90% at 30% 20%, rgba(8,9,14,.35), rgba(8,9,14,.70));
+}
+body.bare { background: transparent; }
+body.bare::before { display: none; }
+
+.glyph { font-family: var(--icons); font-style: normal; font-weight: normal; line-height: 1; }
+
+/* Windows 11 dark window chrome */
+.win {
+  position: absolute; overflow: hidden; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 10px 24px rgba(0,0,0,.35);
+}
+body.bare .win { box-shadow: none; }
+
+/* Tag dot drawn by mockup.js (same maths as draw::PaintDot) */
+.dot { position: absolute; overflow: visible; }
+
+/* Desktop item: real icon crop (80x62) + Windows desktop label */
+.item { position: absolute; width: 116px; text-align: center; }
+.item .ico { position: relative; width: 80px; height: 62px; margin: 0 auto; }
+.item .ico img { display: block; width: 80px; height: 62px; }
+.item .label {
+  margin-top: 6px; font-size: 15px; line-height: 19px; color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,.85), 0 0 6px rgba(0,0,0,.45);
+}
+.item.selected { background: rgba(120,160,230,.30); outline: 1px solid rgba(160,195,255,.55); border-radius: 3px; }
+/* Re-coloured badge, same geometry as PaintOverlay on a Medium desktop icon at 125 %:
+   white 12x7 rounded rect at (38,40) of the 116 px cell (= 20,40 in the 80 px crop), 1 px ring. */
+.badge {
+  position: absolute; left: 20px; top: 40px; width: 12px; height: 7px; border-radius: 2.25px;
+  background: #fff; box-shadow: 0 .6px 0 rgba(0,0,0,.25);
+}
+.badge::after {
+  content: ""; position: absolute; inset: 1px; border-radius: 1.25px; background: var(--c);
+}

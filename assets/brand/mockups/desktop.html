@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- Mockup: Windows desktop (English labels) with tagged folders.
+     Icons are real crops from assets/desktop_badges.png (Medium icons, 125 %), grid 116x125.
+     Badges are redrawn opaque with the PaintOverlay geometry (.badge in mockup.css) so every
+     color can be shown. Blue = Designs, Documents, Workspace (same as the Explorer mockup). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="mockup.css">
+<style>
+  html, body { width: 1000px; height: 700px; }
+  body::before { background: linear-gradient(90deg, rgba(8,9,14,.55), rgba(8,9,14,.15) 70%); }
+</style>
+</head>
+<body>
+<div id="desk"></div>
+<script src="mockup.js"></script>
+<script>
+  // [icon crop, label, tag color var or null] in column-major order, like a real desktop.
+  const items = [
+    ["recyclebin", "Recycle Bin", null], ["projects", "Projects", "green"], ["templates", "Documents", "blue"],
+    ["designs", "Designs", "blue"], ["archives", "Archives", "gray"],
+    ["urgent", "Urgent", "red"], ["invoices", "Invoices", "red"], ["personal", "Personal", "purple"],
+    ["family", "Family", "purple"], ["music", "Music", "yellow"],
+    ["workspace", "Workspace", "blue"], ["backups", "Backups", "orange"], ["downloads", "Downloads", null],
+    ["utilities", "Utilities", null], ["notes", "Notes.txt", null],
+    ["todo", "todo.txt", null], ["readme", "readme.txt", null],
+  ];
+  const desk = document.getElementById("desk");
+  // "?set=hero": compact 4x2 grid (row-major) used inside the README hero, all 7 colors.
+  const heroSet = new URLSearchParams(location.search).get("set") === "hero";
+  const list = heroSet ? [
+    ["projects", "Projects", "green"], ["urgent", "Urgent", "red"], ["designs", "Designs", "blue"],
+    ["personal", "Personal", "purple"], ["backups", "Backups", "orange"], ["music", "Music", "yellow"],
+    ["archives", "Archives", "gray"], ["workspace", "Workspace", "blue"],
+  ] : items;
+  list.forEach(([icon, label, tag], i) => {
+    const col = heroSet ? i % 4 : Math.floor(i / 5), row = heroSet ? Math.floor(i / 4) : i % 5;
+    const el = document.createElement("div");
+    el.className = "item";
+    el.style.left = (14 + 116 * col) + "px";
+    el.style.top = (18 + 132 * row) + "px";
+    el.innerHTML = `<div class="ico"><img src="icons/d_${icon}.png" alt="">` +
+      (tag ? `<span class="badge" style="--c:var(--${tag})"></span>` : "") +
+      `</div><div class="label">${label}</div>`;
+    desk.appendChild(el);
+  });
+</script>
+</body>
+</html>

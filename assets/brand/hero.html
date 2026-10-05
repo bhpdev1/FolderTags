@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!-- FolderTags hero / social preview. Logical size 1280x640.
+     Rendered by scripts/render-brand.ps1 (scale 2 -> assets/hero.png, scale 1 -> assets/brand/social-preview.png). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --red: #F0524F; --orange: #F69B30; --yellow: #F7CB3F; --green: #62C255;
+    --blue: #388AF0; --purple: #B063D6; --gray: #98989D;
+    --text: #F3F4F7; --dim: #A9AFBC;
+    --font: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1280px; height: 640px; overflow: hidden; background: #07080D; }
+  body { position: relative; font-family: var(--font); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+  /* ---------- background: sober graphite wallpaper, blurred like Mica ---------- */
+  .wall {
+    position: absolute; inset: -40px;
+    background: url("wallpaper.jpg") 70% 50% / cover no-repeat;
+    filter: blur(4px);
+  }
+  .shade {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(7,8,13,.96) 0%, rgba(7,8,13,.86) 34%, rgba(7,8,13,.25) 62%, rgba(7,8,13,.05) 100%),
+      linear-gradient(0deg, rgba(7,8,13,.55) 0%, rgba(7,8,13,0) 30%);
+  }
+  .grain {
+    position: absolute; inset: 0; opacity: .06; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- left column: identity ---------- */
+  .brand { position: absolute; left: 76px; top: 0; bottom: 0; width: 520px; display: flex; flex-direction: column; justify-content: center; }
+  .lockup { display: flex; align-items: center; gap: 18px; }
+  .lockup img { width: 84px; height: 84px; }
+  .lockup h1 { font-size: 62px; font-weight: 600; letter-spacing: -1.2px; line-height: 1; }
+  .tagline { margin-top: 26px; font-size: 25px; line-height: 1.35; font-weight: 400; color: var(--text); max-width: 470px; }
+  .tagline b { font-weight: 600; }
+  .sub { margin-top: 12px; font-size: 17px; line-height: 1.5; color: var(--dim); max-width: 450px; }
+  .chips { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 14px;
+    border-radius: 16px; font-size: 14px; font-weight: 500; color: #E4E7EE;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10);
+    backdrop-filter: blur(20px);
+  }
+  .chip i { width: 8px; height: 8px; border-radius: 50%; }
+  .palette { margin-top: 30px; display: flex; gap: 10px; }
+  .palette span { width: 16px; height: 16px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255,255,255,.9), 0 2px 6px rgba(0,0,0,.4); }
+
+  /* ---------- right: English UI mockups (mockups/*.html#bare, transparent iframes) ---------- */
+  .frame { position: absolute; border: 0; transform-origin: 0 0; background: transparent; }
+  .clip { position: absolute; overflow: hidden; }
+  .shadow {
+    position: absolute; border-radius: 6px;
+    box-shadow: 0 28px 70px rgba(0,0,0,.55), 0 8px 20px rgba(0,0,0,.35);
+  }
+  /* Explorer: iframe 1000x700 at 0.6 -> window (50,34,900,632) lands at (600,40,540,379) */
+  .explorer { left: 570px; top: 19.6px; width: 1000px; height: 700px; transform: scale(.6); }
+  /* Context menu: menu (190,64) cropped after "Tags…" (196 px), shown at 0.7 */
+  .menu-clip { left: 1004px; top: 34px; width: 251.3px; height: 137.2px; border-radius: 5.6px 5.6px 0 0; }
+  .menu { left: -133px; top: -44.8px; width: 1000px; height: 700px; transform: scale(.7); }
+  .menu-clip::after {  /* fade the cut edge */
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 18px;
+    background: linear-gradient(transparent, #2C2C2C);
+  }
+  /* Desktop: acrylic card + transparent icon grid (desktop.html?set=hero), shown at 0.85 */
+  .desk-card {
+    position: absolute; left: 806px; top: 346px; width: 430px; height: 226px; border-radius: 12px;
+    background: rgba(14,15,20,.50); backdrop-filter: blur(26px) saturate(1.5);
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 28px 70px rgba(0,0,0,.55), 0 8px 20px rgba(0,0,0,.35);
+  }
+  .desk-clip { left: 806px; top: 346px; width: 430px; height: 226px; }
+  .desk { left: 8px; top: 2px; width: 1000px; height: 700px; transform: scale(.85); }
+
+  .glow { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .30; }
+</style>
+</head>
+<body>
+  <div class="wall"></div>
+  <div class="shade"></div>
+  <div class="grain"></div>
+
+  <div class="glow" style="left:880px;top:360px;width:340px;height:220px;background:#3D5A80;opacity:.35"></div>
+
+  <div class="shadow" style="left:600px;top:40px;width:540px;height:379px"></div>
+  <iframe class="frame explorer" src="mockups/explorer.html#bare" scrolling="no"></iframe>
+
+  <div class="desk-card"></div>
+  <div class="clip desk-clip"><iframe class="frame desk" src="mockups/desktop.html?set=hero#bare" scrolling="no"></iframe></div>
+
+  <div class="shadow" style="left:1004px;top:34px;width:251px;height:137px"></div>
+  <div class="clip menu-clip"><iframe class="frame menu" src="mockups/context-menu.html#bare" scrolling="no"></iframe></div>
+
+  <section class="brand">
+    <div class="lockup">
+      <img src="logo.svg" alt="">
+      <h1>FolderTags</h1>
+    </div>
+    <p class="tagline"><b>macOS Finder-style color tags</b>, built right into Windows File Explorer.</p>
+    <p class="sub">Right-click, pick a color, done. Badges on your folders, a Tags section in the sidebar.</p>
+    <div class="chips">
+      <span class="chip"><i style="background:var(--green)"></i>Native C++ shell extension</span>
+      <span class="chip"><i style="background:var(--blue)"></i>Zero background process</span>
+      <span class="chip"><i style="background:var(--purple)"></i>Windows 11 &amp; 10</span>
+    </div>
+    <div class="palette">
+      <span style="background:var(--red)"></span><span style="background:var(--orange)"></span>
+      <span style="background:var(--yellow)"></span><span style="background:var(--green)"></span>
+      <span style="background:var(--blue)"></span><span style="background:var(--purple)"></span>
+      <span style="background:var(--gray)"></span>
+    </div>
+  </section>
+</body>
+</html>
