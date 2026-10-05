@@ -60,20 +60,30 @@ On Windows, organizing folders has historically meant custom icons or third-part
 
 ---
 
-### 🚀 Installation & Build
+### 🚀 Installation & Usage
 
-#### Prerequisites
+#### Option A: Quick Install (Pre-built Release - Recommended)
+No compiler or developer tools required:
+1. Download the latest `desktop-folder-tags-v1.0.0.zip` from [Releases](https://github.com/bhpdev1/desktop-folder-tags/releases).
+2. Extract the ZIP archive to a folder.
+3. Double-click **`install.bat`** (or right-click `install.ps1` and select *Run with PowerShell*).
+4. Explorer restarts automatically — you can now right-click any folder to tag it!
+
+To uninstall anytime, simply double-click **`uninstall.bat`**.
+
+#### Option B: Build from Source
+##### Prerequisites
 - Windows 10 or Windows 11 (64-bit)
 - Visual Studio 2022 (with *Desktop development with C++*) or MSVC Build Tools
 - CMake 3.20+
 
-#### 1. Clone the repository
+##### 1. Clone the repository
 ```powershell
-git clone https://github.com/unnameds1/desktop-folder-tags.git
+git clone https://github.com/bhpdev1/desktop-folder-tags.git
 cd desktop-folder-tags
 ```
 
-#### 2. Build & Install
+##### 2. Build & Install
 Run the provided automated PowerShell scripts:
 ```powershell
 # Compile the native 64-bit shell extension DLL
@@ -83,10 +93,10 @@ Run the provided automated PowerShell scripts:
 .\scripts\install.ps1
 ```
 
-> **Note**: `install.ps1` registers the extension in `HKEY_CURRENT_USER` and automatically restarts `explorer.exe` to refresh icon cache and shell overlays. No administrator privileges required for user installation!
+> **Note**: `install.ps1` registers the extension in `HKEY_CURRENT_USER` and automatically restarts `explorer.exe` to refresh icon cache and shell overlays.
 
-#### 3. Uninstallation
-To completely remove the extension and restore standard Explorer behavior:
+##### 3. Uninstallation
+To completely remove the extension:
 ```powershell
 .\scripts\uninstall.ps1
 ```
@@ -130,19 +140,31 @@ Sur Windows, ce niveau d'intégration manquait ou nécessitait des applications 
 
 ---
 
-### 🚀 Compilation et Installation
+### 🚀 Installation et Utilisation
 
-#### Prérequis
+#### Option A : Installation rapide (Release pré-compilée - Recommandé)
+Aucun compilateur ni outil de développement requis :
+1. Téléchargez la dernière version `desktop-folder-tags-v1.0.0.zip` dans l'onglet [Releases](https://github.com/bhpdev1/desktop-folder-tags/releases).
+2. Décompressez l'archive ZIP dans un dossier.
+3. Double-cliquez sur **`install.bat`** (ou clic droit sur `install.ps1` → *Exécuter avec PowerShell*).
+4. L'Explorateur redémarre automatiquement — vous pouvez dès à présent faire un clic droit sur vos dossiers pour leur attribuer une couleur !
+
+Pour désinstaller à tout moment, double-cliquez simplement sur **`uninstall.bat`**.
+
+#### Option B : Compiler depuis les sources
+##### Prérequis
 - Windows 10 ou 11 (64-bit)
 - Visual Studio 2022 (avec les outils C++) ou Build Tools MSVC
 - CMake 3.20 ou supérieur
 
-#### Installation rapide
+##### 1. Cloner le projet
 ```powershell
-# Cloner le projet
-git clone https://github.com/unnameds1/desktop-folder-tags.git
+git clone https://github.com/bhpdev1/desktop-folder-tags.git
 cd desktop-folder-tags
+```
 
+##### 2. Compiler et Installer
+```powershell
 # Compiler la DLL 64-bit
 .\scripts\build.ps1
 
@@ -150,7 +172,7 @@ cd desktop-folder-tags
 .\scripts\install.ps1
 ```
 
-#### Désinstallation
+##### 3. Désinstallation
 ```powershell
 .\scripts\uninstall.ps1
 ```
