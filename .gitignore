@@ -4,3 +4,16 @@ obj/
 *.user
 build/
 dist/
+
+# --- Safety baseline (secrets, deps, caches, OS junk) ---
+.env
+.env.*
+.vercel/
+node_modules/
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+!.env.example
