@@ -7,11 +7,11 @@
 **macOS Finder-style color tags, built right into Windows File Explorer.**<br>
 <em>Les étiquettes de couleur du Finder de macOS, intégrées nativement à l'Explorateur Windows.</em>
 
-<a href="https://github.com/bhpdev1/FolderTags/releases/latest"><img src="https://img.shields.io/github/v/release/bhpdev1/FolderTags?style=flat-square&label=release&labelColor=22252E&color=388AF0" alt="Latest release"></a>
-<img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-3A3E4A?style=flat-square&labelColor=22252E" alt="Windows 10 and 11">
-<img src="https://img.shields.io/badge/built%20with-C%2B%2B17%20Win32-3A3E4A?style=flat-square&logo=cplusplus&logoColor=388AF0&labelColor=22252E" alt="C++17 Win32 shell extension">
-<img src="https://img.shields.io/badge/background%20process-none-62C255?style=flat-square&labelColor=22252E" alt="No background process">
-<img src="https://img.shields.io/github/license/bhpdev1/FolderTags?style=flat-square&labelColor=22252E&color=3A3E4A" alt="License">
+<a href="https://github.com/bhpdev1/FolderTags/releases/latest"><img src="https://img.shields.io/github/v/release/bhpdev1/FolderTags?style=flat-square&logo=github&logoColor=white&label=Release&color=388AF0" alt="Latest release"></a>
+<img src="https://img.shields.io/badge/Windows-11%20%7C%2010-0078D4?style=flat-square" alt="Windows 11 and 10">
+<img src="https://img.shields.io/badge/C%2B%2B17-Win32%20Shell%20Extension-00599C?style=flat-square&logo=cplusplus&logoColor=white" alt="C++17 Win32 shell extension">
+<img src="https://img.shields.io/badge/Background%20process-none-62C255?style=flat-square" alt="No background process">
+<img src="https://img.shields.io/badge/License-GPLv3-388AF0?style=flat-square" alt="GNU GPLv3 License">
 
 <br><br>
 
